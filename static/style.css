@@ -1,0 +1,22 @@
+@font-face {
+    font-family: Geologica;
+    src: url("assets/fonts/Geologica/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf")
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Geologica;
+}
+a {
+    color: unset;
+    text-decoration: none;
+}
+a:visited {
+    color: unset;
+}
+button, input {
+    border: none;
+    outline: none;
+    background-color: unset;
+}
