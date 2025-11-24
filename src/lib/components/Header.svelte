@@ -5,7 +5,7 @@
 <header class="header">
     <div class="header--menu">
         <button onclick={toggleSidebar}>
-            <img src="assets/images/burger_menu.svg" alt="Меню" width="40px" height="40px">
+            <img src="/assets/images/burger_menu.svg" alt="Меню" width="40px" height="40px">
         </button>
     </div>
     <div class="header--title">
@@ -15,7 +15,7 @@
     </div>
     <div class="header--profile">
         <a href="/profile">
-            <img src="assets/images/profile.svg" alt="Профиль" width="40px" height="40px">
+            <img src="/assets/images/profile.svg" alt="Профиль" width="40px" height="40px">
         </a>
     </div>
 </header>
@@ -46,8 +46,5 @@
     }
     .header--menu button {
         transition: opacity 0.5s cubic-bezier(0.00, 1.00, 0.5, 1.0);
-    }
-    :global(.transparent) {
-        opacity: 0;
     }
 </style>

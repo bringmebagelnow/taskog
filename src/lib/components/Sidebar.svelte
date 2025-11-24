@@ -1,6 +1,6 @@
 <script lang="ts">
     import toggleSidebar from "./SidebarButton";
-
+    import { enhance } from '$app/forms';
     // document.addEventListener('DOMContentLoaded', () => {
     //     const sidebarlinks = document.querySelectorAll("li a");
     //     console.log(sidebarlinks);
@@ -11,11 +11,11 @@
 <div class="sidebar sidebar--hidden">
     <div class="sidebar--controls">
         <div class="logo">
-            <img src="assets/images/logo.svg" alt="Лого" width="40px" height="40px">
+            <img src="/assets/images/logo.svg" alt="Лого" width="40px" height="40px">
             Taskog.
         </div>
         <button onclick={toggleSidebar}>
-            <img src="assets/images/burger_menu.svg" alt="Меню" width="40px" height="40px">
+            <img src="/assets/images/burger_menu.svg" alt="Меню" width="40px" height="40px">
         </button>
     </div>
     <div class="sidebar--lists">
@@ -32,15 +32,17 @@
         </ul>
         <ul>
             <li>
-                <a href="/tasks">Настройки</a>
+                <a href="/settings">Настройки</a>
             </li>
             <li>
-                <a href="/tasks">Выйти из аккаунта</a>
+                <form method='post' action='/logout' use:enhance>
+                    <button>Выйти из аккаунта</button>
+                </form>
             </li>
         </ul>
     </div>
     <p>
-        Сделано с <a href="https://taskog.ru">Taskog</a>
+        Сделано с <a href="https://github.com/bringmebagelnow/taskog">Taskog</a>
     </p>
 </div>
 
@@ -104,10 +106,14 @@
     li:hover {
         background-color: rgb(170, 255, 185);
     }
-    li:hover a {
+    li:hover a, li:hover button {
         padding-left: 30px;
     }
-    li a {
+    li form {
+        width: 100%;
+        height: 100%;
+    }
+    li a, li button {
         height: 100%;
         width: 100%;
         padding: 10px;
@@ -115,5 +121,9 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
+    }
+    button {
+        font-size: 16px;
+        cursor: pointer;
     }
 </style>

@@ -1,9 +1,10 @@
 {
 	"name": "taskog",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.7",
 	"type": "module",
 	"scripts": {
+		"setup": "echo \"okay\"",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",

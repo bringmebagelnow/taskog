@@ -1,6 +1,6 @@
 @font-face {
     font-family: Geologica;
-    src: url("assets/fonts/Geologica/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf")
+    src: url("/assets/fonts/Geologica/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf")
 }
 * {
     margin: 0;
@@ -19,4 +19,8 @@ button, input {
     border: none;
     outline: none;
     background-color: unset;
+    font-size: 16px;
+}
+:global(.transparent) {
+    opacity: 0;
 }

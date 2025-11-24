@@ -8,6 +8,13 @@
       "when": 1762932085177,
       "tag": "0000_lively_dazzler",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1763923126842,
+      "tag": "0001_furry_nightshade",
+      "breakpoints": true
     }
   ]
 }
