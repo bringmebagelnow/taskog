@@ -6,8 +6,6 @@
 
 	let { data, children } = $props();
 
-	let authenticated: boolean = $state(false);
-
 	console.log(data.user);
 </script>
 
@@ -15,7 +13,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{#if authenticated}
+{#if data.user}
 	<Sidebar/>
 	<Header/>
 {:else}
