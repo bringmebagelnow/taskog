@@ -37,9 +37,9 @@ export const task = mysqlTable('task', {
 	id: int('id').primaryKey().autoincrement(),
 	projectId: int('project_id').notNull().references(() => project.id, { onDelete: 'cascade' }),
 	name: varchar('name', { length: 255 }).notNull(),
-	description: varchar('description', { length: 2000 }).notNull(),
+	description: varchar('description', { length: 2000 }),
+	priority: varchar('priority', { length: 30 }).default('default').notNull(),
 	deadline: datetime('deadline'),
-	priority: varchar('priority', { length: 30 }).default('default'),
 	createdBy: int('created_by').notNull().references(() => user.id),
 });
 

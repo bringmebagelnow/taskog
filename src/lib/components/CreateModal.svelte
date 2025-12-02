@@ -13,7 +13,7 @@
                 toggleModal();
             });
         });
-        if (action.createProject) {
+        if (action == "createProject") {
             const autodeletionCheckbox = document.querySelector("#autodeletionCheckbox") as HTMLInputElement;
             autodeletionCheckbox.checked = false;
             const autodeletionDate = document.querySelector("#autodeletionDate");
@@ -96,26 +96,22 @@
                         <textarea name="description"></textarea>
                     </div>
                     <div class="inputs--input">
-                        Статус
-                        <select name="status" value="unbegun">
-                            <option value="unbegun">Не начат</option>
-                            <option value="ongoing">В прогрессе</option>
-                            <option value="frozen">Заморожен</option>
-                            <option value="stopped">Остановлен</option>
-                            <option value="finished">Завершен</option>
+                        Приоритет
+                        <select name="priority" value="default">
+                            <option value="default">Не указан</option>
+                            <option value="trivial">Незначительный</option>
+                            <option value="low">Низкий</option>
+                            <option value="medium">Средний</option>
+                            <option value="high">Высокий</option>
+                            <option value="critical">Критический</option>
                         </select>
                     </div>
                     <div class="inputs--input">
                         Дедлайн
                         <input name="deadline" type="date" min={ tomorrowDate }/>
                     </div>
-                    <div class="inputs--input">
-                        Автоудаление
-                        <input type="checkbox" id="autodeletionCheckbox">
-                        <input name="autodeletion" id="autodeletionDate" type="date" min={ tomorrowDate } required disabled class="transparent"/>
-                    </div>
                 </div>
-                <button>Создать проект</button>
+                <button>Создать задачу</button>
             </form>
         {/if}
     </div>

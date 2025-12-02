@@ -12,7 +12,6 @@ const client = mysql.createPool(env.DATABASE_URL);
 export const db = drizzle(client, { schema, mode: 'default' });
 
 async function main() {
-    console.log("should work");
     let admins = await db.select().from(schema.user).where(eq(schema.user.role, "admin")).limit(1);
     if (admins.toString() != "") return;
     const adminPassword = "password"

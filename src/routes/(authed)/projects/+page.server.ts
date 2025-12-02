@@ -6,7 +6,7 @@ import { asc, sql } from 'drizzle-orm';
 
 export const load: PageServerLoad = async (event) => {
     const user = event.locals.user;
-    if (!user) return {};
+    if (!user) redirect(403, "/login");
 
     const getPage = event.url.searchParams.get("p");
     let page = 1;

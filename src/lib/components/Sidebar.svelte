@@ -31,7 +31,7 @@
                 <a href="/">Главная</a>
             </li>
             <li>
-                <a href="/tasks">Задания</a>
+                <a href="/tasks">Задачи</a>
             </li>
             <li>
                 <a href="/projects">Проекты</a>
