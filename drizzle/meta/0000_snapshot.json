@@ -1,9 +1,251 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "8f2d072a-fd65-4b52-832a-8108d7361ecf",
+  "id": "a2ca642c-06fd-4499-b74b-d9cd262f5ea5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "comment": {
+      "name": "comment",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "task_id": {
+          "name": "task_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "left_by": {
+          "name": "left_by",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "comment_task_id_task_id_fk": {
+          "name": "comment_task_id_task_id_fk",
+          "tableFrom": "comment",
+          "tableTo": "task",
+          "columnsFrom": [
+            "task_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comment_left_by_user_id_fk": {
+          "name": "comment_left_by_user_id_fk",
+          "tableFrom": "comment",
+          "tableTo": "user",
+          "columnsFrom": [
+            "left_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "selfref_comment_parent_id": {
+          "name": "selfref_comment_parent_id",
+          "tableFrom": "comment",
+          "tableTo": "comment",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "comment_id": {
+          "name": "comment_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "comment_attachment": {
+      "name": "comment_attachment",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "link": {
+          "name": "link",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "file_type": {
+          "name": "file_type",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "comment_attachment_id": {
+          "name": "comment_attachment_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "project": {
+      "name": "project",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'ongoing'"
+        },
+        "deadline": {
+          "name": "deadline",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "autodeletion": {
+          "name": "autodeletion",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "project_id": {
+          "name": "project_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "project_member": {
+      "name": "project_member",
+      "columns": {
+        "project_id": {
+          "name": "project_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'member'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "project_member_project_id_project_id_fk": {
+          "name": "project_member_project_id_project_id_fk",
+          "tableFrom": "project_member",
+          "tableTo": "project",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "project_member_user_id_user_id_fk": {
+          "name": "project_member_user_id_user_id_fk",
+          "tableFrom": "project_member",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
     "session": {
       "name": "session",
       "columns": {
@@ -16,7 +258,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar(255)",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -41,7 +283,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -56,19 +298,179 @@
       "uniqueConstraints": {},
       "checkConstraint": {}
     },
-    "user": {
-      "name": "user",
+    "task": {
+      "name": "task",
       "columns": {
         "id": {
           "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "project_id": {
+          "name": "project_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "age": {
-          "name": "age",
+        "description": {
+          "name": "description",
+          "type": "varchar(2000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "deadline": {
+          "name": "deadline",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "priority": {
+          "name": "priority",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'default'"
+        },
+        "created_by": {
+          "name": "created_by",
           "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "task_project_id_project_id_fk": {
+          "name": "task_project_id_project_id_fk",
+          "tableFrom": "task",
+          "tableTo": "project",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "task_created_by_user_id_fk": {
+          "name": "task_created_by_user_id_fk",
+          "tableFrom": "task",
+          "tableTo": "user",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "task_id": {
+          "name": "task_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "task_status": {
+      "name": "task_status",
+      "columns": {
+        "task_id": {
+          "name": "task_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'ongoing'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "task_status_task_id_task_id_fk": {
+          "name": "task_status_task_id_task_id_fk",
+          "tableFrom": "task_status",
+          "tableTo": "task",
+          "columnsFrom": [
+            "task_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "task_status_user_id_user_id_fk": {
+          "name": "task_status_user_id_user_id_fk",
+          "tableFrom": "task_status",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "user": {
+      "name": "user",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -80,12 +482,43 @@
           "notNull": true,
           "autoincrement": false
         },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "password_hash": {
           "name": "password_hash",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'user'"
+        },
+        "profile_picture": {
+          "name": "profile_picture",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'/assets/images/profile.svg'"
+        },
+        "timezone": {
+          "name": "timezone",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'Europe/Moscow'"
         }
       },
       "indexes": {},

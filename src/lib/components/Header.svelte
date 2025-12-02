@@ -1,5 +1,11 @@
 <script lang="ts">
     import toggleSidebar from "./SidebarButton";
+    import { page } from "$app/state";
+    let pathname = $state(page.url.pathname);
+
+    $effect(() => {
+        pathname = page.url.pathname;
+    })
 </script>
 
 <header class="header">
@@ -9,9 +15,7 @@
         </button>
     </div>
     <div class="header--title">
-        <p>
-            Главная
-        </p>
+        <p></p>
     </div>
     <div class="header--profile">
         <a href="/profile">
@@ -28,7 +32,7 @@
         align-items: center;
         padding: 20px;
         gap: 20px;
-        background-color: rgb(193, 255, 210);
+        background-color: var(--primaryBGColor);
     }
     .header:nth-child(1) {
         flex: 1;
@@ -36,6 +40,9 @@
     .header--title {
         text-align: center;
         font-size: 20px;
+        user-select: none;
+    }
+    .header--profile {
         user-select: none;
     }
     .header--profile a, .header--menu button {

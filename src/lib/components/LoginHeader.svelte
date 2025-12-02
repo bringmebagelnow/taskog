@@ -1,24 +1,35 @@
 <script lang="ts">
-    import { env } from '$env/dynamic/public';
+    import { PUBLIC_COMPANY_NAME } from '$env/static/public';
 </script>
 
 <header class="header">
     <div class="header--title">
-        <p>
-            { env.PUBLIC_ORG_NAME }
-        </p>
+        <div class="logo">
+            <img src="/assets/images/logo.svg" alt="Лого" width="40px" height="40px">
+            {PUBLIC_COMPANY_NAME}
+        </div>
     </div>
 </header>
 
 <style>
     .header {
+        position: absolute;
+        top: 0;
+        width: 100%;
         height: 80px;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         padding: 20px;
         gap: 20px;
-        background-color: rgb(193, 255, 210);
+        background-color: var(--primaryBGColor);
+    }
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        user-select: none;
     }
     .header--title {
         text-align: center;

@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 import * as auth from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from '../$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -21,10 +21,10 @@ export const actions: Actions = {
 		const password = formData.get('password');
 
 		if (!validateUsername(username)) {
-			return fail(400, { message: 'Invalid username (min 3, max 31 characters, alphanumeric only)' });
+			return fail(400, { message: 'Неверное имя пользователя' });
 		}
 		if (!validatePassword(password)) {
-			return fail(400, { message: 'Invalid password (min 6, max 255 characters)' });
+			return fail(400, { message: 'Неверный пароль' });
 		}
 
 		const results = await db
@@ -34,7 +34,7 @@ export const actions: Actions = {
 
 		const existingUser = results.at(0);
 		if (!existingUser) {
-			return fail(400, { message: 'Incorrect username or password' });
+			return fail(400, { message: 'Неверное имя пользователя или пароль' });
 		}
 
 		const validPassword = await verify(existingUser.passwordHash, password, {
@@ -44,14 +44,14 @@ export const actions: Actions = {
 			parallelism: 1,
 		});
 		if (!validPassword) {
-			return fail(400, { message: 'Incorrect username or password' });
+			return fail(400, { message: 'Неверное имя пользователя или пароль' });
 		}
 
 		const sessionToken = auth.generateSessionToken();
 		const session = await auth.createSession(sessionToken, existingUser.id);
 		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-		return redirect(302, '/home');
+		return redirect(302, '/');
 	},
 	register: async (event) => {
 		const formData = await event.request.formData();
@@ -59,15 +59,13 @@ export const actions: Actions = {
 		const password = formData.get('password');
 
 		if (!validateUsername(username)) {
-			return fail(400, { message: 'Invalid username' });
+			return fail(400, { message: 'Неверное имя пользователя' });
 		}
 		if (!validatePassword(password)) {
-			return fail(400, { message: 'Invalid password' });
+			return fail(400, { message: 'Неверный пароль' });
 		}
 
-		const userId = generateUserId();
 		const passwordHash = await hash(password, {
-			// recommended minimum parameters
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,
@@ -75,17 +73,14 @@ export const actions: Actions = {
 		});
 
 		try {
-			console.log("i work up to here!")
-			await db.insert(table.user).values({ id: userId, username, passwordHash });
-			console.log("i dont!")
+			const [user] = await db.insert(table.user).values({ username, passwordHash }).$returningId();
 			const sessionToken = auth.generateSessionToken();
-			const session = await auth.createSession(sessionToken, userId);
+			const session = await auth.createSession(sessionToken, user.id);
 			auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 		} catch {
-			console.log("but now im here!")
-			return fail(500, { message: 'An error has occurred' });
+			return fail(500, { message: 'Возникла ошибка, попробуйте снова позже' });
 		}
-		return redirect(302, '/home');
+		return redirect(302, '/');
 	},
 };
 

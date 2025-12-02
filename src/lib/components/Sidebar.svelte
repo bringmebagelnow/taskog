@@ -1,10 +1,17 @@
 <script lang="ts">
+    import {
+        PUBLIC_COMPANY_NAME,
+    } from '$env/static/public';
     import toggleSidebar from "./SidebarButton";
     import { enhance } from '$app/forms';
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     const sidebarlinks = document.querySelectorAll("li a");
-    //     console.log(sidebarlinks);
-    // })
+    $effect(() => {
+        const sidebarlinks = document.querySelectorAll("li a");
+        sidebarlinks.forEach((el) => {
+            el.addEventListener('click', (e) => {
+                toggleSidebar();
+            })
+        })
+    });
 </script>
 
 
@@ -12,7 +19,7 @@
     <div class="sidebar--controls">
         <div class="logo">
             <img src="/assets/images/logo.svg" alt="Лого" width="40px" height="40px">
-            Taskog.
+            { PUBLIC_COMPANY_NAME }
         </div>
         <button onclick={toggleSidebar}>
             <img src="/assets/images/burger_menu.svg" alt="Меню" width="40px" height="40px">
@@ -58,7 +65,7 @@
         flex-direction: column;
         padding: 20px;
         gap: 20px;
-        background-color: rgb(195, 255, 210);
+        background-color: var(--primaryBGColor);
         transition: left 0.5s, opacity 0.5s cubic-bezier(0.00, 1.00, 0.5, 1.0);
     }
     .sidebar--hidden {
@@ -99,15 +106,19 @@
         width: 100%;
         display: flex;
         align-items: center;
-        background-color: rgb(150, 255, 170);
+        background-color: var(--primaryUIColor);
         border-radius: 10px;
         transition: background-color 0.2s;
     }
     li:hover {
-        background-color: rgb(170, 255, 185);
+        background-color: var(--primaryHoverColor);
     }
-    li:hover a, li:hover button {
+    li:active {
+        background-color: var(--primaryActiveColor);
+    }
+    li:hover a, li:hover button, li a:focus, li button:focus {
         padding-left: 30px;
+        outline: none;
     }
     li form {
         width: 100%;
@@ -121,6 +132,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        border-radius: 10px;
     }
     button {
         font-size: 16px;

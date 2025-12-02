@@ -5,19 +5,19 @@
 	import Sidebar from '$lib/components/Sidebar.svelte';
 
 	let { data, children } = $props();
-
-	console.log(data.user);
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{#if data.user}
+{#if data.user !== null}
 	<Sidebar/>
 	<Header/>
 {:else}
 	<LoginHeader/>
 {/if}
 
-{@render children()}
+<div class="main">
+	{@render children()}
+</div>
