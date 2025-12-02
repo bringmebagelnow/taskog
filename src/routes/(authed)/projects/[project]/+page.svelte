@@ -46,7 +46,7 @@
 				{/if}
 			</div>
 			<div class="statusinfo--deadline">
-				{project.deadline?.toLocaleDateString()}
+				{task.deadline?.toLocaleDateString()}
 			</div>
 		</div>
 	</a>

@@ -15,21 +15,24 @@ export const load: PageServerLoad = async (event) => {;
     }
 
     let taskList;
+    let project;
 
     if (user.role === "admin") {
+        project = await db.select().from(table.project).where(eq(table.project.id, Number(event.params.project)));
         taskList = await db.select({
             id: table.task.id,
             name: table.task.name,
-            status: table.task.priority,
+            priority: table.task.priority,
             deadline: table.task.deadline
         }).from(table.task).where(eq(table.task.projectId, Number(event.params.project))).orderBy(asc(sql`deadline IS NULL`), asc(table.task.deadline)).limit(10).offset((page * 10) - 10);
         return {
             isAdmin: user.role === "admin",
+            project,
             taskList
         };
     }
     else {
-        return {};
+        redirect(404, "/");
     }
 };
 

@@ -31,9 +31,9 @@
 			<div class="maininfo--title">
 				{project.name}
 			</div>
-			<div class="maininfo--completion">
+			<!-- <div class="maininfo--completion">
 				0/6
-			</div>
+			</div> -->
 		</div>
 		<div class="project--statusinfo">
 			<div class="statusinfo--status">
