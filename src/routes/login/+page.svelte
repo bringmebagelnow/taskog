@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div class="center">
-	<h1>Войти/Register</h1>
+	<h1>Войти</h1>
 	<form method="post" action="?/login" use:enhance>
 		<div class="form--inputs">
 			<div class="inputs--input">
@@ -23,7 +23,6 @@
 			</div>
 		</div>
 		<button>Войти</button>
-		<button formaction="?/register">меня здесь быть не должно</button>
 	</form>
 	<p class="message">{form?.message ?? ''}</p>
 </div>

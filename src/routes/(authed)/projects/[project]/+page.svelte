@@ -18,6 +18,9 @@
 
 <h1>{project.name}</h1>
 <p>{project.description}</p>
+
+<a href={ "/projects/" + project.id + "/members" } class="modal--button">Участники</a>
+
 <h1>Задачи</h1>
 
 {#if data.isAdmin}
@@ -51,20 +54,3 @@
 		</div>
 	</a>
 {/each}
-
-<style>
-	.modal--button {
-		background-color: var(--primaryBGColor);
-		font-size: 24px;
-		padding: 5px 50px;
-		border-radius: 5px;
-		text-align: center;
-		transition: background-color 0.1s;
-	}
-	.modal--button:hover, .modal--button:focus {
-		background-color: var(--primaryHoverColor);
-	}
-	.modal--button:active {
-		background-color: var(--primaryActiveColor);
-	}
-</style>

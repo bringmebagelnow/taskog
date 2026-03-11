@@ -11,8 +11,8 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{#if data.user !== null}
-	<Sidebar/>
+{#if data.user}
+	<Sidebar user={data.user}/>
 	<Header/>
 {:else}
 	<LoginHeader/>

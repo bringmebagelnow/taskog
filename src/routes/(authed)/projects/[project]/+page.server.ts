@@ -8,30 +8,40 @@ export const load: PageServerLoad = async (event) => {;
     const user = event.locals.user;
     if (!user) redirect(403, "/login");
 
-    const getPage = event.url.searchParams.get("p");
-    let page = 1;
-    if (getPage) {
-        page = Number(getPage);
+    const getTasksPage = event.url.searchParams.get("tp");
+
+    let tasksPage = 1;
+
+    if (getTasksPage) {
+        tasksPage = Number(getTasksPage);
     }
 
-    let taskList;
     let project;
+    let taskList;
 
-    if (user.role === "admin") {
+    const userPartOfProject = true;
+
+    if (user.role === "admin" || userPartOfProject) {
         project = await db.select().from(table.project).where(eq(table.project.id, Number(event.params.project)));
+
         taskList = await db.select({
             id: table.task.id,
             name: table.task.name,
+            description: table.task.description,
             priority: table.task.priority,
             deadline: table.task.deadline
-        }).from(table.task).where(eq(table.task.projectId, Number(event.params.project))).orderBy(asc(sql`deadline IS NULL`), asc(table.task.deadline)).limit(10).offset((page * 10) - 10);
+        })
+            .from(table.task)
+            .where(eq(table.task.projectId, Number(event.params.project)))
+            .orderBy(asc(sql`deadline IS NULL`), asc(table.task.deadline))
+            .limit(10).offset((tasksPage * 10) - 10);
+
         return {
             isAdmin: user.role === "admin",
             project,
             taskList
         };
-    }
-    else {
+    } else {
         redirect(404, "/");
     }
 };
