@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import type { Actions, PageServerLoad } from '../../$types';
-import { asc, sql } from 'drizzle-orm';
+import { asc, sql, eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async (event) => {
     const user = event.locals.user;
@@ -29,7 +29,19 @@ export const load: PageServerLoad = async (event) => {
         };
     }
     else {
-        return {};
+        projectList = await db.select({
+            id: table.project.id,
+            name: table.project.name,
+            status: table.project.status,
+            deadline: table.project.deadline
+        }).from(table.project)
+        .leftJoin(table.projectMember, eq(table.projectMember.projectId, table.project.id))
+        .where(eq(table.projectMember.userId, user.id))
+        .orderBy(asc(sql`deadline IS NULL`), asc(table.project.deadline)).limit(10).offset((page * 10) - 10);
+        return {
+            isAdmin: user.role === "admin",
+            projectList
+        };
     }
 };
 

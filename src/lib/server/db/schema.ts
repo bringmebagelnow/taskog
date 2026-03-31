@@ -23,8 +23,7 @@ export const project = mysqlTable('project', {
 	name: varchar('name', { length: 30 }).notNull(),
 	description: varchar('description', { length: 255 }),
 	status: varchar('status', { length: 30 }).default('ongoing').notNull(),
-	deadline: datetime('deadline'),
-	autodeletion: datetime('autodeletion'),
+	deadline: datetime('deadline')
 });
 
 export const projectMember = mysqlTable('project_member', {

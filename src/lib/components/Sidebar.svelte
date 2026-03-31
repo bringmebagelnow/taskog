@@ -12,6 +12,8 @@
             })
         })
     });
+
+    const { user } = $props();
 </script>
 
 
@@ -36,6 +38,11 @@
             <li>
                 <a href="/projects">Проекты</a>
             </li>
+            {#if user.role == "admin"}
+                <li>
+                    <a href="/users">Пользователи</a>
+                </li>
+            {/if}
         </ul>
         <ul>
             <li>

@@ -4,7 +4,7 @@
 
     const tomorrowDate = new Date(Date.now() + 86400000).toISOString().split('T')[0];
     
-    const { action } = $props();
+    const { action, actionData = null } = $props();
 
     $effect(() => {
         const modalClosers = document.querySelectorAll("#closeModal");
@@ -45,6 +45,10 @@
                     <h2>Создание проекта</h2>
                 {:else if action == "createTask"}
                     <h2>Создание задачи</h2>
+                {:else if action == "createUser"}
+                    <h2>Создание пользователя</h2>
+                {:else if action == "addUser"}
+                    <h2>Добавление участника</h2>
                 {/if}
             </div>
             <button class="controls--close" id="closeModal">
@@ -112,6 +116,56 @@
                     </div>
                 </div>
                 <button>Создать задачу</button>
+            </form>
+        {:else if action == "createUser"}
+            <form id="modalForm" method='post' action='?/createUser' use:enhance>
+                <div class="form--inputs">
+                    <div class="inputs--input">
+                        Логин
+                        <input name="username" type="text" required/>
+                    </div>
+                    <div class="inputs--input">
+                        Пароль
+                        <input name="password" type="password" required/>
+                    </div>
+                    <div class="inputs--input">
+                        Имя
+                        <input name="firstName" type="text"/>
+                    </div>
+                    <div class="inputs--input">
+                        Фамилия
+                        <input name="lastName" type="text"/>
+                    </div>
+                    <div class="inputs--input">
+                        Электронная почта
+                        <input name="email" type="text"/>
+                    </div>
+                    <div class="inputs--input">
+                        Роль
+                        <select name="role" value="user" required>
+                            <option value="user">Обычный пользователь</option>
+                            <option value="admin">Администратор</option>
+                        </select>
+                    </div>
+                </div>
+                <button>Создать пользователя</button>
+            </form>
+        {:else if action == "addUser"}
+            <form id="modalForm" method='post' action='?/addUser' use:enhance>
+                <div class="form--inputs">
+                    <div class="inputs--input">
+                        Логин
+                        <input name="username" type="text" required/>
+                    </div>
+                    <div class="inputs--input">
+                        Роль
+                        <select name="role" value="member" required>
+                            <option value="member">Обычный пользователь</option>
+                            <option value="manager">Менеджер</option>
+                        </select>
+                    </div>
+                </div>
+                <button>Добавить участника</button>
             </form>
         {/if}
     </div>

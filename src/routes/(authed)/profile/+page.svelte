@@ -1,4 +1,5 @@
 <script lang="ts">
+    const { data } = $props();
 	$effect(() => {
         const headerTitle = document.querySelector(".header--title p");
         if (!headerTitle) return;
@@ -11,5 +12,4 @@
 	<title>Профиль</title>
 </svelte:head>
 
-<h1>You</h1>
-<p>uhhh its likee uhhhh its you i think</p>
+<h1>Привет, {data.user?.username}</h1>

@@ -6,40 +6,41 @@ import { asc, eq, sql } from 'drizzle-orm';
 
 export const load: PageServerLoad = async (event) => {;
     const user = event.locals.user;
+
     if (!user) redirect(403, "/login");
 
-    const getTasksPage = event.url.searchParams.get("tp");
+    const getCommentsPage = event.url.searchParams.get("p");
 
-    let tasksPage = 1;
+    let commentsPage = 1;
 
-    if (getTasksPage) {
-        tasksPage = Number(getTasksPage);
+    if (getCommentsPage) {
+        commentsPage = Number(getCommentsPage);
     }
 
-    let project;
-    let taskList;
+    let task;
+    let commentList = ["hi"];
 
     const userPartOfProject = true;
 
     if (user.role === "admin" || userPartOfProject) {
-        project = await db.select().from(table.project).where(eq(table.project.id, Number(event.params.project)));
+        task = await db.select().from(table.task).where(eq(table.task.id, Number(event.params.task)));
 
-        taskList = await db.select({
-            id: table.task.id,
-            name: table.task.name,
-            description: table.task.description,
-            priority: table.task.priority,
-            deadline: table.task.deadline
-        })
-            .from(table.task)
-            .where(eq(table.task.projectId, Number(event.params.project)))
-            .orderBy(asc(sql`deadline IS NULL`), asc(table.task.deadline))
-            .limit(10).offset((tasksPage * 10) - 10);
+        // commentList = await db.select({
+        //     id: table.task.id,
+        //     name: table.task.name,
+        //     description: table.task.description,
+        //     priority: table.task.priority,
+        //     deadline: table.task.deadline
+        // })
+        //     .from(table.task)
+        //     .where(eq(table.task.projectId, Number(event.params.project)))
+        //     .orderBy(asc(sql`deadline IS NULL`), asc(table.task.deadline))
+        //     .limit(10).offset((commentsPage * 10) - 10);
 
         return {
             isAdmin: user.role === "admin",
-            project,
-            taskList
+            task,
+            commentList
         };
     } else {
         redirect(404, "/");
@@ -50,7 +51,7 @@ export const load: PageServerLoad = async (event) => {;
 
 export const actions: Actions = {
     createTask: async (event) => {
-        const projectId = Number(event.params.project);
+        // const projectId = Number(event.params.project);
         const formData = await event.request.formData();
         const name = formData.get('name');
         const description = formData.get('description');
@@ -62,25 +63,25 @@ export const actions: Actions = {
         if (!validateName(name)) {
             return fail(400, { message: 'Название не должно превышать 30 символов' });
         }
-        let values = { name: name, projectId: projectId, createdBy: createdBy };
+        // let values = { name: name, projectId: projectId, createdBy: createdBy };
         if (description) {
             if (!validateDescription(description)) {
                 return fail(400, { message: 'Описание не должно превышать 255 символов' });
             }
-            values = Object.assign({ description: description }, values);
+            // values = Object.assign({ description: description }, values);
         }
         if (!validatePriority(priority)) {
             return fail(400, { message: 'Некорректный статус' });
         }
-        values = Object.assign({ priority: priority }, values);
+        // values = Object.assign({ priority: priority }, values);
         if (deadline) {
             if (!validateDate(deadline)) {
                 return fail(400, { message: 'Неверно указана дата дедлайна' });
             }
-            values = Object.assign({ deadline: new Date(deadline) }, values);
+            // values = Object.assign({ deadline: new Date(deadline) }, values);
         }
         try {
-            const [task] = await db.insert(table.task).values(values).$returningId();
+            // const [task] = await db.insert(table.task).values(values).$returningId();
         } catch {
             return fail(500, { message: 'Возникла ошибка, попробуйте снова позже' });
         }
